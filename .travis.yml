@@ -16,3 +16,10 @@ after_success:
   - docker build -t amirinbar/multi-nginx ./nginx
   - docker build -t amirinbar/multi-server ./server
   - docker build -t amirinbar/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push amirinbar/multi-client
+  - docker push amirinbar/multi-nginx
+  - docker push amirinbar/multi-server
+  - docker push amirinbar/multi-worker
