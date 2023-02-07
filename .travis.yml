@@ -1,0 +1,18 @@
+sudo : required
+
+language :  generic
+
+services :
+   -  docker
+
+before_install :
+    -  docker build -t amirinbar/todo-app-docker-vue -f ./client/Dockerfile.dev ./client
+
+script :
+    -  docker run -e CI=true amirinbar/todo-app-docker-vue npm run test
+
+after_success:
+  - docker build -t amirinbar/multi-client ./client
+  - docker build -t amirinbar/multi-nginx ./nginx
+  - docker build -t amirinbar/multi-server ./server
+  - docker build -t amirinbar/multi-worker ./worker
