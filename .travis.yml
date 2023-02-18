@@ -1,15 +1,15 @@
-sudo : required
+sudo: required
 
-language :  generic
+language: generic
 
-services :
-   -  docker
+services:
+  - docker
 
-before_install :
-    -  docker build -t amirinbar/todo-app-docker-vue -f ./client/Dockerfile.dev ./client
+before_install:
+  - docker build -t amirinbar/todo-app-docker-vue -f ./client/Dockerfile.dev ./client
 
-script :
-    -  docker run -e CI=true amirinbar/todo-app-docker-vue npm run test
+script:
+  - docker run -e CI=true amirinbar/todo-app-docker-vue npm run test
 
 after_success:
   - docker build -t amirinbar/multi-client ./client
@@ -23,3 +23,16 @@ after_success:
   - docker push amirinbar/multi-nginx
   - docker push amirinbar/multi-server
   - docker push amirinbar/multi-worker
+  -
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'us-east-1'
+  app: 'multi-docker'
+  env: 'MultiDocker-env'
+  bucket_name: 'elasticbeanstalk-us-east-1-258435333577'
+  bucket_path: 'docker-multi'
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
