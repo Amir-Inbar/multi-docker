@@ -29,10 +29,3 @@ services:
     hostname: nginx
     ports:
       - "80:80"
-      -
-
-
-
-# postgres:
-#   username: postgres
-#   password: postgres_password
