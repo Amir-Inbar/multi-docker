@@ -23,7 +23,6 @@ after_success:
   - docker push amirinbar/multi-nginx
   - docker push amirinbar/multi-server
   - docker push amirinbar/multi-worker
-  -
 
 deploy:
   provider: elasticbeanstalk
